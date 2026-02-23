@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "fastapiapp.fullname" . }}-test-cast"
+  labels:
+    app.kubernetes.io/name: {{ include "fastapiapp.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['-qO-', 'cast-service:8000/api/v1/casts/']
+  restartPolicy: Never
