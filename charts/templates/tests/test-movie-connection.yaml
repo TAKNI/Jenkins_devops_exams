@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "fastapiapp.fullname" . }}-test-movie"
+  name: "{{ include "fastapiapp.fullname" . }}-test-movie" # test pod movie-service
   labels:
     app.kubernetes.io/name: {{ include "fastapiapp.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
