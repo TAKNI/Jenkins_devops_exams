@@ -18,10 +18,10 @@ movieService:
     repository: rachidtakni/movie-service
     tag: "latest"
     pullPolicy: IfNotPresent
-
   env:
-    DATABASE_URI: "postgresql://{{ .Values.movieDb.username }}:{{ .Values.movieDb.password }}@movie-db:5432/{{ .Values.movieDb.database }}"
-    CAST_SERVICE_HOST_URL: "http://cast-service:8000"
+    database:
+      host: movie-db
+      port: 5432
 
 # ============================
 # CAST SERVICE
@@ -32,9 +32,6 @@ castService:
     repository: rachidtakni/cast-service
     tag: "latest"
     pullPolicy: IfNotPresent
-
-  env:
-    DATABASE_URI: "postgresql://{{ .Values.castDb.username }}:{{ .Values.castDb.password }}@cast-db:5432/{{ .Values.castDb.database }}"
 
 # ============================
 # MOVIE DATABASE

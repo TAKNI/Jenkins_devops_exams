@@ -26,9 +26,9 @@ spec:
             - containerPort: 8000
           env:
             - name: DATABASE_URI
-              value: {{ .Values.movieService.env.DATABASE_URI | quote }}
+              value: "postgresql://{{ .Values.movieDb.username }}:{{ .Values.movieDb.password }}@{{ .Values.movieService.env.database.host }}:{{ .Values.movieService.env.database.port }}/{{ .Values.movieDb.database }}"
             - name: CAST_SERVICE_HOST_URL
-              value: {{ .Values.movieService.env.CAST_SERVICE_HOST_URL | quote }}
+              value: "http://cast-service:8000"
           resources:
             requests:
                 cpu: 100m

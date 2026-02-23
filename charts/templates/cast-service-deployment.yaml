@@ -26,8 +26,7 @@ spec:
             - containerPort: 8000
           env:
             - name: DATABASE_URI
-              value: {{ .Values.castService.env.DATABASE_URI | quote }}
-          resources:
+              value: "postgresql://{{ .Values.castDb.username }}:{{ .Values.castDb.password }}@cast-db:5432/{{ .Values.castDb.database }}"
             requests:
                 cpu: 100m
                 memory: 256Mi
