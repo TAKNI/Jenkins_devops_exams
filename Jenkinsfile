@@ -58,6 +58,7 @@ pipeline {
 
                       helm upgrade --install ${RELEASE_NAME}-dev ${HELM_CHART} \
                         --namespace dev \
+                        --create-namespace \
                         -f ${HELM_CHART}/values-dev.yaml \
                         --set movieService.image.repository=${DOCKER_ID}/${MOVIE_IMAGE} \
                         --set movieService.image.tag=${MOVIE_TAG} \
@@ -80,6 +81,7 @@ pipeline {
 
                       helm upgrade --install ${RELEASE_NAME}-staging ${HELM_CHART} \
                         --namespace staging \
+                        --create-namespace \
                         -f ${HELM_CHART}/values-staging.yaml \
                         --set movieService.image.repository=${DOCKER_ID}/${MOVIE_IMAGE} \
                         --set movieService.image.tag=${MOVIE_TAG} \
@@ -105,6 +107,7 @@ pipeline {
 
                       helm upgrade --install ${RELEASE_NAME}-prod ${HELM_CHART} \
                         --namespace prod \
+                        --create-namespace \
                         -f ${HELM_CHART}/values-prod.yaml \
                         --set movieService.image.repository=${DOCKER_ID}/${MOVIE_IMAGE} \
                         --set movieService.image.tag=${MOVIE_TAG} \
