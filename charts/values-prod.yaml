@@ -8,3 +8,7 @@ resources:
   limits:
     cpu: "1"
     memory: "2Gi"
+
+ingress:
+  enabled: true
+  host: prod.fastapiapp.cloudns.net

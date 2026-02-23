@@ -8,3 +8,7 @@ resources:
   limits:
     cpu: "500m"
     memory: "1Gi"
+
+ingress:
+  enabled: true
+  host: staging.fastapiapp.cloudns.net

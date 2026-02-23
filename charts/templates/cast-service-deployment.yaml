@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cast-service
+  labels:
+    app: cast-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cast-service
+  template:
+    metadata:
+      labels:
+        app: cast-service
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: cast-service
+          image: "{{ .Values.castService.image.repository }}:{{ .Values.castService.image.tag }}"
+          imagePullPolicy: {{ .Values.castService.image.pullPolicy }}
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DATABASE_URI
+              value: {{ .Values.castService.env.DATABASE_URI | quote }}
+          resources:
+            requests:
+                cpu: 100m
+                memory: 256Mi
+            limits:
+                cpu: 500m
+                memory: 512Mi

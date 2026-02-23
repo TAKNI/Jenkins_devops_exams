@@ -8,3 +8,7 @@ resources:
   limits:
     cpu: "200m"
     memory: "256Mi"
+
+ingress:
+  enabled: true
+  host: dev.fastapiapp.cloudns.net
