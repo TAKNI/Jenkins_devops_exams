@@ -1,0 +1,10 @@
+replicaCount: 2
+
+image:
+  repository: rachidtakni/fastapiapp
+  tag: "latest"
+
+resources:
+  limits:
+    cpu: "500m"
+    memory: "1Gi"
