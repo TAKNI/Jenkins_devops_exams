@@ -32,44 +32,56 @@ The entire system is deployed on a Kubernetes cluster using a **multi‑environm
 │   nginx_config.conf
 │   README.md
 │
-├── cast-service
-│   ├── Dockerfile
-│   ├── requirements.txt
-│   └── app/
-│       ├── main.py
-│       └── api/
-│           ├── casts.py
-│           ├── db.py
-│           ├── db_manager.py
-│           └── models.py
+├───cast-service
+│   │   Dockerfile
+│   │   requirements.txt
+│   │
+│   └───app
+│       │   main.py
+│       │
+│       └───api
+│               casts.py
+│               db.py
+│               db_manager.py
+│               models.py
 │
-├── movie-service
-│   ├── Dockerfile
-│   ├── requirements.txt
-│   └── app/
-│       ├── main.py
-│       └── api/
-│           ├── db.py
-│           ├── db_manager.py
-│           ├── models.py
-│           ├── movies.py
-│           └── service.py
-│
-├── charts
-│   ├── Chart.yaml
-│   ├── values.yaml
-│   ├── values-dev.yaml
-│   ├── values-qa.yaml
-│   ├── values-staging.yaml
-│   ├── values-prod.yaml
-│   ├── cluster-issuer.yaml   # Applied once manually
-│   └── templates/
-│       ├── movie-service-.yaml
-│ ├── cast-service-.yaml
-│       ├── movie-db-.yaml
-│ ├── cast-db-.yaml
-│       ├── ingress.yaml
-│       └── tests/
+├───charts
+│   │   .helmignore
+│   │   Chart.yaml
+│   │   cluster-issuer.yaml
+│   │   README.md
+│   │   values-dev.yaml
+│   │   values-prod.yaml
+│   │   values-qa.yaml
+│   │   values-staging.yaml
+│   │   values.yaml
+│   │
+│   └───templates
+│       │   cast-db-deployment.yaml
+│       │   cast-db-service.yaml
+│       │   cast-service-deployment.yaml
+│       │   cast-service-service.yaml
+│       │   ingress.yaml
+│       │   movie-db-deployment.yaml
+│       │   movie-db-service.yaml
+│       │   movie-service-deployment.yaml
+│       │   movie-service-service.yaml
+│       │   _helpers.tpl
+│       │
+│       └───tests
+└───movie-service
+    │   Dockerfile
+    │   requirements.txt
+    │
+    └───app
+        │   main.py
+        │
+        └───api
+                db.py
+                db_manager.py
+                models.py
+                movies.py
+                service.py
 ```
 
 
