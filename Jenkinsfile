@@ -45,7 +45,39 @@ pipeline {
                 }
             }
         }
-        
+        stage('Install cert-manager') {
+            environment {
+                KUBECONFIG = credentials('config')
+            }
+            steps {
+                script {
+                    sh """
+                    mkdir -p .kube
+                    cat ${KUBECONFIG} > .kube/config
+
+                    echo "Vérification de cert-manager..."
+
+                    if ! kubectl get ns cert-manager >/dev/null 2>&1; then
+                        echo "cert-manager non installé — installation en cours..."
+
+                        # Ajouter le repo Helm
+                        helm repo add jetstack https://charts.jetstack.io
+                        helm repo update
+
+                        # Installer cert-manager + CRDs
+                        helm upgrade --install cert-manager jetstack/cert-manager \
+                            --namespace cert-manager \
+                            --create-namespace \
+                            --set installCRDs=true
+
+                    else
+                        echo "cert-manager déjà installé — skip."
+                    fi
+                    """
+                }
+            }
+        }
+
         stage('ClusterIssuer + CoreDNS + Cleanup') {
             environment {
                 KUBECONFIG = credentials('config')
