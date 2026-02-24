@@ -204,6 +204,9 @@ pipeline {
         }
 
         stage('Deploy PROD') {
+            when {
+                branch 'master'
+            }
             environment {
                 KUBECONFIG = credentials('config')
             }
@@ -213,10 +216,10 @@ pipeline {
                 }
                 script {
                     sh """
-                      mkdir -p .kube
-                      cat ${KUBECONFIG} > .kube/config
+                    mkdir -p .kube
+                    cat ${KUBECONFIG} > .kube/config
 
-                      helm upgrade --install ${RELEASE_NAME}-prod ${HELM_CHART} \
+                    helm upgrade --install ${RELEASE_NAME}-prod ${HELM_CHART} \
                         --namespace prod \
                         --create-namespace \
                         -f ${HELM_CHART}/values-prod.yaml \
@@ -228,6 +231,7 @@ pipeline {
                 }
             }
         }
+
     }
 
     post {
