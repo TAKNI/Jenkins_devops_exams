@@ -44,13 +44,6 @@ spec:
           volumeMounts:
             - name: cast-db-storage
               mountPath: /var/lib/postgresql/data
-          resources:
-            requests:
-                cpu: 200m
-                memory: 512Mi
-            limits:
-                cpu: 1
-                memory: 1Gi
       volumes:
         - name: cast-db-storage
           persistentVolumeClaim:
