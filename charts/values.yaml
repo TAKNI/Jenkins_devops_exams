@@ -54,3 +54,9 @@ castDb:
   password: cast_pass
   database: castdb
   storage: 1Gi
+
+# ============================
+# certManager
+# ============================
+certManager:
+  enabled: true

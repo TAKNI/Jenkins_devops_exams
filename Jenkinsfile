@@ -45,6 +45,62 @@ pipeline {
                 }
             }
         }
+        
+        stage('ClusterIssuer + CoreDNS + Cleanup') {
+            environment {
+                KUBECONFIG = credentials('config')
+            }
+            steps {
+                script {
+                    sh """
+                    mkdir -p .kube
+                    cat ${KUBECONFIG} > .kube/config
+
+                    echo "=============================="
+                    echo " 1) Vérification du ClusterIssuer"
+                    echo "=============================="
+
+                    if ! kubectl get clusterissuer letsencrypt-prod >/dev/null 2>&1; then
+                        echo "ClusterIssuer absent — installation en cours..."
+                        kubectl apply -f ${HELM_CHART}/cluster-issuer.yaml
+                    else
+                        echo "ClusterIssuer déjà installé — skip."
+                    fi
+
+
+                    echo "=============================="
+                    echo " 2) Redémarrage de CoreDNS"
+                    echo "=============================="
+
+                    kubectl rollout restart deployment coredns -n kube-system
+
+
+                    echo "=============================="
+                    echo " 3) Attente du redémarrage de CoreDNS"
+                    echo "=============================="
+
+                    kubectl rollout status deployment coredns -n kube-system --timeout=120s
+
+
+                    echo "=============================="
+                    echo " 4) Suppression automatique des nodes NotReady"
+                    echo "=============================="
+
+                    NOTREADY_NODES=\$(kubectl get nodes --no-headers | awk '\$2=="NotReady"{print \$1}')
+
+                    if [ -z "\$NOTREADY_NODES" ]; then
+                        echo "Aucun nœud NotReady détecté. Rien à supprimer."
+                    else
+                        echo "Nœuds NotReady détectés :"
+                        echo "\$NOTREADY_NODES"
+                        echo "Suppression en cours..."
+                        echo "\$NOTREADY_NODES" | xargs -r kubectl delete node
+                    fi
+                    """
+                }
+            }
+        }
+
 
         stage('Deploy DEV') {
             environment {
@@ -60,6 +116,29 @@ pipeline {
                         --namespace dev \
                         --create-namespace \
                         -f ${HELM_CHART}/values-dev.yaml \
+                        --set movieService.image.repository=${DOCKER_ID}/${MOVIE_IMAGE} \
+                        --set movieService.image.tag=${MOVIE_TAG} \
+                        --set castService.image.repository=${DOCKER_ID}/${CAST_IMAGE} \
+                        --set castService.image.tag=${CAST_TAG}
+                    """
+                }
+            }
+        }
+
+        stage('Deploy QA') {
+            environment {
+                KUBECONFIG = credentials('config')
+            }
+            steps {
+                script {
+                    sh """
+                      mkdir -p .kube
+                      cat ${KUBECONFIG} > .kube/config
+
+                      helm upgrade --install ${RELEASE_NAME}-qa ${HELM_CHART} \
+                        --namespace qa \
+                        --create-namespace \
+                        -f ${HELM_CHART}/values-qa.yaml \
                         --set movieService.image.repository=${DOCKER_ID}/${MOVIE_IMAGE} \
                         --set movieService.image.tag=${MOVIE_TAG} \
                         --set castService.image.repository=${DOCKER_ID}/${CAST_IMAGE} \
