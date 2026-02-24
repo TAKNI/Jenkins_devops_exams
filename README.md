@@ -23,7 +23,8 @@ The entire system is deployed on a Kubernetes cluster using a **multi‑environm
 
 ##  Project Structure
 
-'''
+```
+
 ./Jenkins_devops_exams
 │   .gitignore
 │   docker-compose.yml
@@ -69,7 +70,8 @@ The entire system is deployed on a Kubernetes cluster using a **multi‑environm
 │ ├── cast-db-.yaml
 │       ├── ingress.yaml
 │       └── tests/
-'''
+```
+
 
 ## Kubernetes Environments
 

@@ -211,7 +211,9 @@ pipeline {
                 KUBECONFIG = credentials('config')
             }
             steps {
-                input message: "Déployer en production ?", ok: "Oui"
+                timeout(time: 15, unit: 'MINUTES') {
+                    input message: "Déployer en production ?", ok: "Oui"
+                }
                 script {
                     sh """
                     mkdir -p .kube
