@@ -1,29 +1,40 @@
-### How to create helm chart from manifests
+### Chart structure
+
 To create helm chart run following command and edit values, chart files and files in templates directory based on your k8s manifests:
 
 ```
 $ helm create fastapiapp
 ```
+This creates the default Helm chart structure
 
-Now move to the fastapiapp directory and run tree command you should see:
+Now move to the charts directory and update default files .yaml:
 
 ```
+$ cd charts 
 $ tree
-.
-├── charts
+
+./charts
 ├── Chart.yaml
 ├── README.md
-├── templates
-│   ├── deployment.yaml
-│   ├── _helpers.tpl
-│   ├── hpa.yaml
-│   ├── ingress.yaml
-│   ├── NOTES.txt
-│   ├── serviceaccount.yaml
-│   ├── service.yaml
-│   └── tests
-│       └── test-connection.yaml
-└── values.yaml
+├── values.yaml
+│
+├── values-dev.yaml
+├── values-qa.yaml
+├── values-staging.yaml
+├── values-prod.yaml
+│
+├── cluster-issuer.yaml        # Applied manually or by Jenkins (NOT in templates)
+│
+└── templates
+    ├── ingress.yaml
+    ├── movie-service-deployment.yaml
+    ├── movie-service-service.yaml
+    ├── cast-service-deployment.yaml
+    ├── cast-service-service.yaml
+    ├── movie-db-deployment.yaml
+    ├── movie-db-service.yaml
+    ├── cast-db-deployment.yaml
+    ├── cast-db-service.yaml
+    ├── _helpers.tpl
+    └── NOTES.txt
 ```
-
-Now you can edit Chart.yaml and modify appVersion and chart version. You can edit values.yaml and provide image registry, name and tag and whatever you want.
