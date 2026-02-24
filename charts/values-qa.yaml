@@ -11,4 +11,4 @@ resources:
 
 ingress:
   enabled: true
-  host: qa.fastapiapp.cloudns.net
+  host: qa-app.cours-datascientest1.abrdns.com # url QA 

@@ -11,4 +11,4 @@ resources:
 
 ingress:
   enabled: true
-  host: dev.fastapiapp.cloudns.net
+  host: dev-app.cours-datascientest1.abrdns.com # Url app dev

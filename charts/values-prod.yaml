@@ -11,4 +11,4 @@ resources:
 
 ingress:
   enabled: true
-  host: prod.fastapiapp.cloudns.net
+  host: prod-app.cours-datascientest1.abrdns.com # url app prod

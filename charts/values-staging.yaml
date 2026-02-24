@@ -11,4 +11,4 @@ resources:
 
 ingress:
   enabled: true
-  host: staging.fastapiapp.cloudns.net
+  host: staging-app.cours-datascientest1.abrdns.com # url staging
