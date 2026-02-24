@@ -27,9 +27,10 @@ spec:
           env:
             - name: DATABASE_URI
               value: "postgresql://{{ .Values.castDb.username }}:{{ .Values.castDb.password }}@cast-db:5432/{{ .Values.castDb.database }}"
+          resources:
             requests:
-                cpu: 100m
-                memory: 256Mi
+              cpu: 100m
+              memory: 256Mi
             limits:
-                cpu: 500m
-                memory: 512Mi
+              cpu: 500m
+              memory: 512Mi
